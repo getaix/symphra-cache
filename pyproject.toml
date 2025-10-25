@@ -1,0 +1,150 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "symphra-cache"
+version = "0.1.0"
+description = "生产级 Python 异步缓存库，支持内存、文件（热重载）、Redis 后端"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Symphra Team", email = "dev@symphra.com"},
+]
+keywords = ["cache", "redis", "memory", "file", "hot-reload", "async", "performance"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "redis>=4.5.0", # Redis 后端
+    "aiosqlite>=0.19.0", # 文件缓存后端（异步 SQLite）
+    "typing-extensions>=4.5.0", # 类型提示增强
+    "pydantic>=2.12.3",
+]
+
+[project.optional-dependencies]
+# Redis 性能加速（C 扩展）
+hiredis = [
+    "hiredis>=2.2.0",
+]
+
+# 监控导出
+monitoring = [
+    "prometheus-client>=0.18.0",  # Prometheus 支持
+    "statsd>=4.0.0",              # StatsD 支持
+]
+
+# 开发依赖
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-benchmark>=4.0.0",    # 性能基准测试
+    "ruff>=0.1.0",                # 代码检查 + 格式化
+    "mypy>=1.5.0",                # 类型检查
+    "pre-commit>=3.3.0",          # Git hooks
+]
+
+# 文档依赖
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.23.0",
+]
+
+# 完整安装（所有可选依赖）
+all = [
+    "symphra-cache[hiredis,monitoring,dev,docs]",
+]
+
+[project.urls]
+Homepage = "https://github.com/getaix/symphra-cache"
+Documentation = "https://getaix.github.io/symphra-cache/"
+Repository = "https://github.com/getaix/symphra-cache"
+Issues = "https://github.com/getaix/symphra-cache/issues"
+Changelog = "https://github.com/getaix/symphra-cache/blob/main/CHANGELOG.md"
+
+# ========== Ruff 配置 ==========
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+]
+ignore = [
+    "E501",  # 行长度检查（已在 line-length 设置）
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+# ========== Mypy 配置 ==========
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
+# ========== Pytest 配置 ==========
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = [
+    "--cov=symphra_cache",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=90",
+    "-v",
+]
+
+# ========== Coverage 配置 ==========
+[tool.coverage.run]
+source = ["src/symphra_cache"]
+omit = [
+    "tests/*",
+    "examples/*",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+# ========== Hatchling 配置 ==========
+[tool.hatch.build.targets.wheel]
+packages = ["src/symphra_cache"]

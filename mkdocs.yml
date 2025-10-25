@@ -1,0 +1,101 @@
+site_name: Symphra Cache
+site_description: Production-grade Python async cache library with multi-backends
+site_author: Symphra Team
+site_url: https://getaix.github.io/symphra-cache/
+repo_url: https://github.com/getaix/symphra-cache
+edit_uri: edit/main/docs/
+
+use_directory_urls: true
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+  - codehilite
+  - meta
+  - footnotes
+  - tables
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["src"]
+          options:
+            show_source: true
+            docstring_style: google
+            heading_level: 2
+
+nav:
+  - English:
+      - Home: en/index.md
+      - Getting Started:
+          - Installation: en/installation.md
+          - Quick Start: en/getting-started.md
+      - Advanced:
+          - Invalidation: en/advanced/invalidation.md
+          - Warming: en/advanced/warming.md
+          - Monitoring: en/advanced/monitoring.md
+      - API Reference:
+          - Overview: en/api/index.md
+          - Manager: en/api/manager.md
+          - Decorators: en/api/decorators.md
+          - Backends:
+              - Memory: en/api/backends/memory.md
+              - File: en/api/backends/file.md
+              - Redis: en/api/backends/redis.md
+          - Locks: en/api/locks.md
+          - Config: en/api/config.md
+          - Serializers: en/api/serializers.md
+          - Types & Enums: en/api/types.md
+          - Monitoring: en/api/monitoring.md
+          - Warming: en/api/warming.md
+          - Invalidation: en/api/invalidation.md
+      - Use Cases: en/use-cases.md
+      - Best Practices: en/best-practices.md
+      - FAQ: en/faq.md
+      - Changelog: en/changelog.md
+  - 中文:
+      - 首页: zh/index.md
+      - 快速开始:
+          - 安装: zh/installation.md
+          - 快速入门: zh/getting-started.md
+      - 高级主题:
+          - 缓存失效: zh/advanced/invalidation.md
+          - 缓存预热: zh/advanced/warming.md
+          - 监控导出: zh/advanced/monitoring.md
+      - API 参考:
+          - 概览: zh/api/index.md
+          - 管理器: zh/api/manager.md
+          - 装饰器: zh/api/decorators.md
+          - 后端:
+              - 内存后端: zh/api/backends/memory.md
+              - 文件后端: zh/api/backends/file.md
+              - Redis 后端: zh/api/backends/redis.md
+          - 分布式锁: zh/api/locks.md
+          - 配置: zh/api/config.md
+          - 序列化: zh/api/serializers.md
+          - 类型与枚举: zh/api/types.md
+          - 监控: zh/api/monitoring.md
+          - 预热: zh/api/warming.md
+          - 失效: zh/api/invalidation.md
+      - 使用场景: zh/use-cases.md
+      - 最佳实践: zh/best-practices.md
+      - 常见问题: zh/faq.md
+      - 变更日志: zh/changelog.md

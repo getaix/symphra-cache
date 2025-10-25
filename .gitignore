@@ -1,0 +1,132 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+.tox/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Documentation
+docs/_build/
+site/
+
+# SQLite databases (for testing)
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.temp
+
+# AI and LLM related files
+.claude/
+.spec-workflow/
+.gpt/
+.copilot/
+.codeium/
+
+# IDE extensions and caches
+.vscode/extensions/
+.vscode/settings.json
+.idea/
+.idea/workspace.xml
+*.code-workspace
+
+# Python cache and typing
+.pytype/
+__pytype__/
+*.pyi
+
+# Build and distribution
+*.whl
+.build/
+.eggs/
+
+# Benchmarks and profiling
+.benchmarks/
+*.prof
+*.cprofile
+
+# Node modules (if any frontend code)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Docker related
+.docker/
+docker-compose.override.yml
+
+# Backup files
+*.bak
+*.backup
+*~
+
+config/
+
+uv.lock
+
+.claude/
+.serena/
+.spec-workflow/
+CLAUDE.md

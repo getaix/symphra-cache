@@ -1,0 +1,38 @@
+repos:
+  # Ruff - Python 代码检查和格式化
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.15
+    hooks:
+      # 代码检查（lint）
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      # 代码格式化
+      - id: ruff-format
+
+  # Mypy - 类型检查
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-redis
+          - typing-extensions
+        args: [--strict]
+
+  # 通用 Git hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # 检查文件尾部空行
+      - id: end-of-file-fixer
+      # 检查尾部空格
+      - id: trailing-whitespace
+      # 检查 YAML 格式
+      - id: check-yaml
+      # 检查 TOML 格式
+      - id: check-toml
+      # 检查合并冲突标记
+      - id: check-merge-conflict
+      # 检查大文件
+      - id: check-added-large-files
+        args: [--maxkb=1000]
