@@ -63,7 +63,23 @@ docs = [
 
 # 完整安装（所有可选依赖）
 all = [
-    "symphra-cache[hiredis,monitoring,dev,docs]",
+    # Redis C 扩展
+    "hiredis>=2.2.0",
+    # 监控导出
+    "prometheus-client>=0.18.0",
+    "statsd>=4.0.0",
+    # 开发与测试
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-benchmark>=4.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+    # 文档
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.23.0",
 ]
 
 [project.urls]
