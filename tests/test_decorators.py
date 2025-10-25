@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import pytest
-
 from symphra_cache import CacheManager
 from symphra_cache.backends import MemoryBackend
 from symphra_cache.decorators import acache, cache

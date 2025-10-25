@@ -6,9 +6,7 @@
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch, Mock
 import pytest
-
 from symphra_cache import CacheManager
 from symphra_cache.backends import MemoryBackend
 from symphra_cache.monitor import CacheMonitor
@@ -92,6 +90,7 @@ class TestPrometheusExporter:
         """测试 Prometheus 导出器导入"""
         try:
             from symphra_cache.monitoring.prometheus import PrometheusMonitor
+
             assert PrometheusMonitor is not None
         except ImportError:
             pytest.skip("prometheus_client 未安装")
@@ -102,11 +101,7 @@ class TestPrometheusExporter:
             from symphra_cache.monitoring.prometheus import PrometheusMonitor
 
             manager = CacheManager(backend=MemoryBackend())
-            exporter = PrometheusMonitor(
-                manager,
-                namespace="test_cache",
-                subsystem="backend"
-            )
+            exporter = PrometheusMonitor(manager, namespace="test_cache", subsystem="backend")
             assert exporter is not None
         except ImportError:
             pytest.skip("prometheus_client 未安装")
@@ -137,6 +132,7 @@ class TestStatsDExporter:
         """测试 StatsD 导出器导入"""
         try:
             from symphra_cache.monitoring.statsd import StatsDMonitor
+
             assert StatsDMonitor is not None
         except ImportError:
             pytest.skip("statsd 未安装")
@@ -147,12 +143,7 @@ class TestStatsDExporter:
             from symphra_cache.monitoring.statsd import StatsDMonitor
 
             manager = CacheManager(backend=MemoryBackend())
-            exporter = StatsDMonitor(
-                manager,
-                host="localhost",
-                port=8125,
-                prefix="cache"
-            )
+            exporter = StatsDMonitor(manager, host="localhost", port=8125, prefix="cache")
             assert exporter is not None
         except ImportError:
             pytest.skip("statsd 未安装")
@@ -204,11 +195,13 @@ class TestMonitoringIntegration:
         monitor = CacheMonitor(manager)
 
         # 批量设置
-        manager.mset({
-            "batch_key1": "value1",
-            "batch_key2": "value2",
-            "batch_key3": "value3",
-        })
+        manager.mset(
+            {
+                "batch_key1": "value1",
+                "batch_key2": "value2",
+                "batch_key3": "value3",
+            }
+        )
 
         # 批量获取
         result = manager.mget(["batch_key1", "batch_key2", "batch_key3"])

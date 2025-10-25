@@ -127,7 +127,8 @@ class FileBackend(BaseBackend):
             conn.execute("PRAGMA foreign_keys=ON")
 
             # 创建缓存表
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS cache_entries (
                     key TEXT PRIMARY KEY,
                     value BLOB NOT NULL,
@@ -135,19 +136,24 @@ class FileBackend(BaseBackend):
                     last_access REAL NOT NULL,
                     created_at REAL NOT NULL
                 )
-            """)
+            """
+            )
 
             # 创建索引（优化 TTL 清理和 LRU 淘汰）
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_expires_at
                 ON cache_entries(expires_at)
                 WHERE expires_at IS NOT NULL
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_last_access
                 ON cache_entries(last_access)
-            """)
+            """
+            )
 
             conn.commit()
 

@@ -17,7 +17,6 @@ import threading
 import time
 
 import pytest
-
 from symphra_cache.backends.memory import MemoryBackend
 
 

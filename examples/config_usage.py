@@ -50,7 +50,8 @@ def example_from_toml() -> None:
 
     # 创建临时 TOML 配置文件
     with tempfile.NamedTemporaryFile(mode="w", suffix=".toml", delete=False) as f:
-        f.write("""
+        f.write(
+            """
 # 缓存配置
 backend = "file"
 
@@ -59,7 +60,8 @@ db_path = "/tmp/cache_example.db"
 max_size = 5000
 serialization_mode = "json"
 enable_hot_reload = true
-""")
+"""
+        )
         toml_path = f.name
 
     try:

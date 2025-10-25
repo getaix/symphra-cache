@@ -17,7 +17,6 @@ import time
 from pathlib import Path
 
 import pytest
-
 from symphra_cache.backends.file import FileBackend
 from symphra_cache.types import SerializationMode
 

@@ -11,7 +11,6 @@ import time
 from pathlib import Path
 
 import pytest
-
 from symphra_cache import CacheManager, MemoryBackend
 from symphra_cache.warming import (
     CacheWarmer,

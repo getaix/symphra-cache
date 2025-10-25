@@ -7,10 +7,8 @@
 from __future__ import annotations
 
 import pytest
-
 from symphra_cache import CacheManager
-from symphra_cache.backends import MemoryBackend, FileBackend
-from symphra_cache.exceptions import CacheError
+from symphra_cache.backends import FileBackend, MemoryBackend
 
 
 class TestManagerEdgeCases:
@@ -118,7 +116,6 @@ class TestManagerEdgeCases:
 
     def test_ttl_on_key(self) -> None:
         """测试获取键的 TTL"""
-        import time
 
         manager = CacheManager(backend=MemoryBackend())
 
@@ -160,11 +157,13 @@ class TestManagerEdgeCases:
         manager = CacheManager(backend=MemoryBackend())
 
         # 批量设置
-        manager.mset({
-            "key1": "value1",
-            "key2": "value2",
-            "key3": "value3",
-        })
+        manager.mset(
+            {
+                "key1": "value1",
+                "key2": "value2",
+                "key3": "value3",
+            }
+        )
 
         # 验证
         assert manager.get("key1") == "value1"
@@ -240,10 +239,12 @@ class TestManagerEdgeCases:
         manager = CacheManager(backend=MemoryBackend())
 
         # 异步批量设置
-        await manager.aset_many({
-            "key1": "value1",
-            "key2": "value2",
-        })
+        await manager.aset_many(
+            {
+                "key1": "value1",
+                "key2": "value2",
+            }
+        )
 
         # 异步批量获取（返回字典或列表）
         result = await manager.aget_many(["key1", "key2"])

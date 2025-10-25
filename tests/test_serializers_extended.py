@@ -4,19 +4,14 @@
 
 from __future__ import annotations
 
-import json
-import pickle
 import pytest
-
+from symphra_cache.exceptions import CacheSerializationError
 from symphra_cache.serializers import (
     JSONSerializer,
-    PickleSerializer,
     MessagePackSerializer,
+    PickleSerializer,
     get_serializer,
-    register_serializer,
-    BaseSerializer,
 )
-from symphra_cache.exceptions import CacheSerializationError
 from symphra_cache.types import SerializationMode
 
 
@@ -296,9 +291,9 @@ class TestSerializerEdgeCases:
         serialized = serializer.serialize(data)
         deserialized = serializer.deserialize(serialized)
 
-        assert type(deserialized["int"]) == int
-        assert type(deserialized["float"]) == float
-        assert type(deserialized["bool"]) == bool
+        assert isinstance(deserialized["int"], int)
+        assert isinstance(deserialized["float"], float)
+        assert isinstance(deserialized["bool"], bool)
 
     def test_pickle_large_data(self) -> None:
         """测试 Pickle 大数据"""

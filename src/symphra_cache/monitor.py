@@ -109,7 +109,7 @@ class CacheMetricsAdapter:
     将 CacheStats（库内实现）适配为 monitoring.base.CacheMetrics 所需的字段与方法。
     """
 
-    def __init__(self, stats: CacheStats, monitor: "CacheMonitor") -> None:
+    def __init__(self, stats: CacheStats, monitor: CacheMonitor) -> None:
         self._stats = stats
         self._monitor = monitor
 

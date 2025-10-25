@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import pytest
-
 from symphra_cache import CacheManager
 from symphra_cache.backends import MemoryBackend
 from symphra_cache.monitoring.base import CacheMetrics
@@ -146,7 +145,7 @@ class TestMonitoringMetricsCollection:
         # 跟踪多个操作的延迟
         latencies = [0.5, 1.2, 0.8, 1.5, 0.3]
         total_latency = 0.0
-        min_latency = float('inf')
+        min_latency = float("inf")
         max_latency = 0.0
 
         for lat in latencies:

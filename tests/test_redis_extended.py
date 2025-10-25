@@ -4,9 +4,9 @@ Redis 后端的扩展测试，覆盖更多功能和边界情况。
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch, AsyncMock
-import pytest
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import pytest
 from symphra_cache.backends import RedisBackend
 from symphra_cache.serializers import JSONSerializer, PickleSerializer
 
@@ -17,11 +17,7 @@ class TestRedisBackendConfiguration:
     def test_redis_backend_with_json_serializer(self) -> None:
         """测试 Redis 后端使用 JSON 序列化器"""
         try:
-            backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                serialization_mode="json"
-            )
+            backend = RedisBackend(host="localhost", port=6379, serialization_mode="json")
             assert backend._serializer is not None
             assert isinstance(backend._serializer, JSONSerializer)
         except ImportError:
@@ -30,11 +26,7 @@ class TestRedisBackendConfiguration:
     def test_redis_backend_with_pickle_serializer(self) -> None:
         """测试 Redis 后端使用 Pickle 序列化器"""
         try:
-            backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                serialization_mode="pickle"
-            )
+            backend = RedisBackend(host="localhost", port=6379, serialization_mode="pickle")
             assert backend._serializer is not None
             assert isinstance(backend._serializer, PickleSerializer)
         except ImportError:
@@ -46,10 +38,7 @@ class TestRedisBackendConfiguration:
             # 由于大多数本地开发环境的 Redis 不需要密码，
             # 我们只测试参数被正确接受，不测试实际连接
             backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                password="secret_password",
-                key_prefix="secure:"
+                host="localhost", port=6379, password="secret_password", key_prefix="secure:"
             )
             assert backend._key_prefix == "secure:"
         except ImportError:
@@ -65,7 +54,7 @@ class TestRedisBackendConfiguration:
                 host="localhost",
                 port=6379,
                 db=5,  # 使用数据库 5 而不是默认的 0
-                key_prefix="db5:"
+                key_prefix="db5:",
             )
             assert backend._key_prefix == "db5:"
         except ImportError:
@@ -130,7 +119,7 @@ class TestRedisBackendWithMockOperations:
         try:
             backend = RedisBackend(host="localhost", port=6379)
             # 测试 exists 操作被定义
-            assert hasattr(backend, 'exists')
+            assert hasattr(backend, "exists")
             assert callable(backend.exists)
         except ImportError:
             pytest.skip("redis 未安装")
@@ -150,7 +139,7 @@ class TestRedisBackendWithMockOperations:
         try:
             backend = RedisBackend(host="localhost", port=6379)
             # 测试 incr 操作被定义
-            assert hasattr(backend, 'incr')
+            assert hasattr(backend, "incr")
             assert callable(backend.incr)
         except ImportError:
             pytest.skip("redis 未安装")
@@ -170,7 +159,7 @@ class TestRedisBackendWithMockOperations:
         try:
             backend = RedisBackend(host="localhost", port=6379)
             # 测试 decr 操作被定义
-            assert hasattr(backend, 'decr')
+            assert hasattr(backend, "decr")
             assert callable(backend.decr)
         except ImportError:
             pytest.skip("redis 未安装")
@@ -190,7 +179,7 @@ class TestRedisBackendWithMockOperations:
         try:
             backend = RedisBackend(host="localhost", port=6379)
             # 测试 ttl 操作被定义
-            assert hasattr(backend, 'ttl')
+            assert hasattr(backend, "ttl")
             assert callable(backend.ttl)
         except ImportError:
             pytest.skip("redis 未安装")
@@ -210,7 +199,7 @@ class TestRedisBackendWithMockOperations:
         try:
             backend = RedisBackend(host="localhost", port=6379)
             # 测试 keys 操作被定义
-            assert hasattr(backend, 'keys')
+            assert hasattr(backend, "keys")
             assert callable(backend.keys)
         except ImportError:
             pytest.skip("redis 未安装")
@@ -231,7 +220,7 @@ class TestRedisBackendWithMockOperations:
         try:
             backend = RedisBackend(host="localhost", port=6379, key_prefix="app:")
             # 测试 clear 操作被定义
-            assert hasattr(backend, 'clear')
+            assert hasattr(backend, "clear")
             assert callable(backend.clear)
         except ImportError:
             pytest.skip("redis 未安装")
@@ -244,7 +233,7 @@ class TestRedisBackendAttributes:
         """测试后端有 _client 属性"""
         try:
             backend = RedisBackend(host="localhost", port=6379)
-            assert hasattr(backend, '_client')
+            assert hasattr(backend, "_client")
             assert backend._client is not None
         except ImportError:
             pytest.skip("redis 未安装")
@@ -253,7 +242,7 @@ class TestRedisBackendAttributes:
         """测试后端有 _async_client 属性"""
         try:
             backend = RedisBackend(host="localhost", port=6379)
-            assert hasattr(backend, '_async_client')
+            assert hasattr(backend, "_async_client")
             assert backend._async_client is not None
         except ImportError:
             pytest.skip("redis 未安装")
@@ -262,7 +251,7 @@ class TestRedisBackendAttributes:
         """测试后端有 _serializer 属性"""
         try:
             backend = RedisBackend(host="localhost", port=6379)
-            assert hasattr(backend, '_serializer')
+            assert hasattr(backend, "_serializer")
             assert backend._serializer is not None
         except ImportError:
             pytest.skip("redis 未安装")
@@ -271,7 +260,7 @@ class TestRedisBackendAttributes:
         """测试后端有 _key_prefix 属性"""
         try:
             backend = RedisBackend(host="localhost", port=6379, key_prefix="test:")
-            assert hasattr(backend, '_key_prefix')
+            assert hasattr(backend, "_key_prefix")
             assert backend._key_prefix == "test:"
         except ImportError:
             pytest.skip("redis 未安装")
@@ -286,11 +275,27 @@ class TestRedisBackendMethods:
             backend = RedisBackend(host="localhost", port=6379)
 
             required_methods = [
-                'get', 'set', 'delete', 'exists', 'clear',
-                'get_many', 'set_many', 'delete_many',
-                'incr', 'decr', 'keys', 'ttl',
-                'aget', 'aset', 'adelete', 'akeys', 'attl',
-                'close', 'aclose', '__len__', '__repr__',
+                "get",
+                "set",
+                "delete",
+                "exists",
+                "clear",
+                "get_many",
+                "set_many",
+                "delete_many",
+                "incr",
+                "decr",
+                "keys",
+                "ttl",
+                "aget",
+                "aset",
+                "adelete",
+                "akeys",
+                "attl",
+                "close",
+                "aclose",
+                "__len__",
+                "__repr__",
             ]
 
             for method in required_methods:
@@ -316,11 +321,7 @@ class TestRedisBackendConnectionPool:
     def test_redis_backend_with_custom_socket_timeout(self) -> None:
         """测试自定义套接字超时"""
         try:
-            backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                socket_timeout=10.0
-            )
+            backend = RedisBackend(host="localhost", port=6379, socket_timeout=10.0)
             assert backend is not None
         except ImportError:
             pytest.skip("redis 未安装")
@@ -328,11 +329,7 @@ class TestRedisBackendConnectionPool:
     def test_redis_backend_with_custom_connect_timeout(self) -> None:
         """测试自定义连接超时"""
         try:
-            backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                socket_connect_timeout=5.0
-            )
+            backend = RedisBackend(host="localhost", port=6379, socket_connect_timeout=5.0)
             assert backend is not None
         except ImportError:
             pytest.skip("redis 未安装")
@@ -340,11 +337,7 @@ class TestRedisBackendConnectionPool:
     def test_redis_backend_with_max_connections(self) -> None:
         """测试最大连接数"""
         try:
-            backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                max_connections=100
-            )
+            backend = RedisBackend(host="localhost", port=6379, max_connections=100)
             assert backend is not None
         except ImportError:
             pytest.skip("redis 未安装")

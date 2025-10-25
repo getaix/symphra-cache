@@ -4,11 +4,8 @@
 测试 Prometheus 和 StatsD 监控指标导出器。
 """
 
-import asyncio
-from unittest.mock import MagicMock, patch
 
 import pytest
-
 from symphra_cache import CacheManager, CacheMonitor
 from symphra_cache.backends import MemoryBackend
 from symphra_cache.monitoring.prometheus import PrometheusExporter
@@ -43,9 +40,7 @@ class TestPrometheusExporter:
         assert prometheus_exporter.namespace == "symphra_cache"
         assert prometheus_exporter.monitor is not None
 
-    def test_prometheus_metrics_registration(
-        self, prometheus_exporter: PrometheusExporter
-    ) -> None:
+    def test_prometheus_metrics_registration(self, prometheus_exporter: PrometheusExporter) -> None:
         """测试 Prometheus 指标注册"""
         # 导出器应该有初始化的属性
         assert hasattr(prometheus_exporter, "monitor")
@@ -69,9 +64,7 @@ class TestPrometheusExporter:
         assert isinstance(metrics, str)
         assert "symphra_cache" in metrics
 
-    def test_prometheus_metric_labels(
-        self, prometheus_exporter: PrometheusExporter
-    ) -> None:
+    def test_prometheus_metric_labels(self, prometheus_exporter: PrometheusExporter) -> None:
         """测试 Prometheus 指标标签"""
         # 导出器应该支持标签
         assert hasattr(prometheus_exporter, "labels")
@@ -113,9 +106,7 @@ class TestStatsDExporter:
             prefix="cache",
         )
 
-    def test_statsd_exporter_initialization(
-        self, statsd_exporter: StatsDExporter
-    ) -> None:
+    def test_statsd_exporter_initialization(self, statsd_exporter: StatsDExporter) -> None:
         """测试 StatsD 导出器初始化"""
         assert statsd_exporter.host == "localhost"
         assert statsd_exporter.port == 8125
@@ -468,9 +459,7 @@ class TestExporterPerformance:
         assert isinstance(metrics, str)
 
     @pytest.mark.asyncio
-    async def test_statsd_throughput(
-        self, cache_manager: CacheManager
-    ) -> None:
+    async def test_statsd_throughput(self, cache_manager: CacheManager) -> None:
         """测试 StatsD 吞吐量"""
         statsd = StatsDExporter(cache_manager)
 

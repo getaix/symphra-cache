@@ -9,7 +9,6 @@ from __future__ import annotations
 import datetime
 
 import pytest
-
 from symphra_cache.exceptions import CacheSerializationError
 from symphra_cache.serializers import (
     JSONSerializer,

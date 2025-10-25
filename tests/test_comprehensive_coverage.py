@@ -10,12 +10,10 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from symphra_cache import CacheManager
-from symphra_cache.backends import MemoryBackend, FileBackend, BaseBackend
-from symphra_cache.backends.base import BaseBackend
-from symphra_cache.invalidation import CacheInvalidator, CacheGroupInvalidator
+from symphra_cache.backends import FileBackend, MemoryBackend
 from symphra_cache.config import CacheConfig
+from symphra_cache.invalidation import CacheInvalidator
 
 
 class TestBackendBaseClassComprehensive:
@@ -27,29 +25,29 @@ class TestBackendBaseClassComprehensive:
         # 但我们可以测试它的子类实现
 
         backend = MemoryBackend()
-        assert hasattr(backend, 'get')
-        assert hasattr(backend, 'set')
-        assert hasattr(backend, 'delete')
-        assert hasattr(backend, 'exists')
-        assert hasattr(backend, 'clear')
+        assert hasattr(backend, "get")
+        assert hasattr(backend, "set")
+        assert hasattr(backend, "delete")
+        assert hasattr(backend, "exists")
+        assert hasattr(backend, "clear")
 
     def test_backend_async_methods(self) -> None:
         """测试后端的异步方法"""
         backend = MemoryBackend()
 
         # 异步方法应该存在
-        assert hasattr(backend, 'aget')
-        assert hasattr(backend, 'aset')
-        assert hasattr(backend, 'adelete')
+        assert hasattr(backend, "aget")
+        assert hasattr(backend, "aset")
+        assert hasattr(backend, "adelete")
 
     def test_backend_batch_methods(self) -> None:
         """测试后端的批量方法"""
         backend = MemoryBackend()
 
         # 批量方法应该存在
-        assert hasattr(backend, 'get_many')
-        assert hasattr(backend, 'set_many')
-        assert hasattr(backend, 'delete_many')
+        assert hasattr(backend, "get_many")
+        assert hasattr(backend, "set_many")
+        assert hasattr(backend, "delete_many")
 
 
 class TestInvalidationComprehensive:
@@ -85,20 +83,14 @@ class TestConfigurationComprehensive:
 
     def test_config_from_dict(self) -> None:
         """测试从字典创建配置"""
-        config_dict = {
-            "backend": "memory",
-            "options": {"max_size": 1000}
-        }
+        config_dict = {"backend": "memory", "options": {"max_size": 1000}}
 
         manager = CacheManager.from_config(config_dict)
         assert isinstance(manager.backend, MemoryBackend)
 
     def test_config_from_config_object(self) -> None:
         """测试从配置对象创建管理器"""
-        config = CacheConfig(
-            backend="memory",
-            options={"max_size": 1000}
-        )
+        config = CacheConfig(backend="memory", options={"max_size": 1000})
 
         manager = CacheManager.from_config(config)
         assert isinstance(manager.backend, MemoryBackend)
@@ -108,10 +100,7 @@ class TestConfigurationComprehensive:
         import yaml
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
-            yaml.dump({
-                "backend": "memory",
-                "options": {"max_size": 1000}
-            }, f)
+            yaml.dump({"backend": "memory", "options": {"max_size": 1000}}, f)
             config_path = f.name
 
         try:
@@ -125,10 +114,7 @@ class TestConfigurationComprehensive:
         import json
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
-            json.dump({
-                "backend": "memory",
-                "options": {}
-            }, f)
+            json.dump({"backend": "memory", "options": {}}, f)
             config_path = f.name
 
         try:
@@ -222,11 +208,7 @@ class TestSerializationEdgeCases:
         manager = CacheManager(backend=MemoryBackend())
 
         complex_data = {
-            "level1": {
-                "level2": {
-                    "level3": [1, 2, {"level4": "value"}]
-                }
-            },
+            "level1": {"level2": {"level3": [1, 2, {"level4": "value"}]}},
             "list": [1, "string", None, True, False],
             "tuple_like": [1, 2, 3],
         }

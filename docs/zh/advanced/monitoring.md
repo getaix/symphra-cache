@@ -174,23 +174,23 @@ async def real_time_monitoring(monitor, interval=60):
         try:
             # 收集指标
             metrics = await monitor.collect_metrics()
-            
+
             # 记录关键指标
             hit_rate = metrics.get_hit_rate()
             cache_size = len(monitor.cache)
             total_ops = metrics.get_total_operations()
-            
+
             print(f"[{time.strftime('%H:%M:%S')}] "
                   f"命中率: {hit_rate:.4f}, "
                   f"缓存大小: {cache_size}, "
                   f"总操作: {total_ops}")
-            
+
             # 发送到监控系统
             await send_to_monitoring_system(hit_rate, cache_size, total_ops)
-            
+
         except Exception as e:
             print(f"监控错误: {e}")
-        
+
         await asyncio.sleep(interval)
 
 # 启动实时监控
@@ -204,7 +204,7 @@ class MetricsAggregator:
     def __init__(self):
         self.metrics_history = []
         self.window_size = 10  # 保留最近10个采样点
-    
+
     def add_metrics(self, metrics):
         """添加新的指标数据"""
         self.metrics_history.append({
@@ -214,19 +214,19 @@ class MetricsAggregator:
             'get_latency': metrics.get_latency_stats('get'),
             'set_latency': metrics.get_latency_stats('set')
         })
-        
+
         # 限制历史记录大小
         if len(self.metrics_history) > self.window_size:
             self.metrics_history.pop(0)
-    
+
     def get_average_hit_rate(self):
         """获取平均命中率"""
         if not self.metrics_history:
             return 0.0
-        
+
         total = sum(m['hit_rate'] for m in self.metrics_history)
         return total / len(self.metrics_history)
-    
+
     def get_p95_latency(self, operation='get'):
         """获取 P95 延迟"""
         latencies = []
@@ -234,10 +234,10 @@ class MetricsAggregator:
             latency_stats = m.get(f'{operation}_latency', {})
             if latency_stats.get('avg'):
                 latencies.append(latency_stats['avg'])
-        
+
         if not latencies:
             return 0.0
-        
+
         # 简单的 P95 计算
         latencies.sort()
         index = int(len(latencies) * 0.95)
@@ -250,7 +250,7 @@ class MetricsAggregator:
 
 ```python
 # 添加自定义业务指标
-monitor.create_custom_metric("user_cache_hit_rate", 0.95, 
+monitor.create_custom_metric("user_cache_hit_rate", 0.95,
                            {"service": "user_service"})
 monitor.create_custom_metric("product_cache_size", 500,
                            {"service": "product_service"})
@@ -266,16 +266,16 @@ statsd_exporter.add_custom_metric("operation_count", 100, "c")
 class BusinessMetricsMonitor:
     def __init__(self, monitor):
         self.monitor = monitor
-    
+
     async def track_user_cache_performance(self):
         """跟踪用户缓存性能"""
         # 模拟业务指标收集
         user_cache_hit = self.calculate_user_cache_hit_rate()
         user_cache_size = self.get_user_cache_size()
-        
+
         # 添加自定义指标
         self.monitor.create_custom_metric(
-            "user_cache_hit_rate", 
+            "user_cache_hit_rate",
             user_cache_hit,
             {"business_area": "user_service"}
         )
@@ -284,12 +284,12 @@ class BusinessMetricsMonitor:
             user_cache_size,
             {"business_area": "user_service"}
         )
-    
+
     def calculate_user_cache_hit_rate(self):
         """计算用户缓存命中率"""
         # 实现业务逻辑
         pass
-    
+
     def get_user_cache_size(self):
         """获取用户缓存大小"""
         # 实现业务逻辑
@@ -306,19 +306,19 @@ class CacheAlertManager:
         self.monitor = monitor
         self.thresholds = thresholds  # 告警阈值配置
         self.alert_history = []
-    
+
     async def check_alerts(self):
         """检查是否需要告警"""
         metrics = await self.monitor.collect_metrics()
         hit_rate = metrics.get_hit_rate()
-        
+
         # 检查命中率告警
         if hit_rate < self.thresholds['hit_rate_min']:
             await self.send_alert(
                 'cache_hit_rate_low',
                 f'缓存命中率过低: {hit_rate:.4f} (阈值: {self.thresholds["hit_rate_min"]})'
             )
-        
+
         # 检查缓存大小告警
         cache_size = len(self.monitor.cache)
         if cache_size > self.thresholds['cache_size_max']:
@@ -326,7 +326,7 @@ class CacheAlertManager:
                 'cache_size_too_large',
                 f'缓存大小过大: {cache_size} (阈值: {self.thresholds["cache_size_max"]})'
             )
-    
+
     async def send_alert(self, alert_type, message):
         """发送告警"""
         alert = {
@@ -335,12 +335,12 @@ class CacheAlertManager:
             'message': message,
             'severity': 'warning' if alert_type == 'cache_hit_rate_low' else 'critical'
         }
-        
+
         self.alert_history.append(alert)
-        
+
         # 发送到告警系统
         await self.send_to_alert_system(alert)
-    
+
     async def send_to_alert_system(self, alert):
         """发送到实际的告警系统"""
         # 实现发送到钉钉、企业微信、邮件等
@@ -356,22 +356,22 @@ async def monitor_latency_alerts(monitor, thresholds):
         try:
             metrics = await monitor.collect_metrics()
             latency_stats = metrics.get_latency_stats('get')
-            
+
             if latency_stats['avg'] > thresholds['get_latency_max']:
                 await send_latency_alert(
                     'get_latency_high',
                     f'GET 操作平均延迟过高: {latency_stats["avg"]:.3f}ms'
                 )
-            
+
             if latency_stats['max'] > thresholds['get_latency_critical']:
                 await send_latency_alert(
                     'get_latency_critical',
                     f'GET 操作最大延迟过高: {latency_stats["max"]:.3f}ms'
                 )
-                
+
         except Exception as e:
             print(f'延迟监控错误: {e}')
-        
+
         await asyncio.sleep(60)  # 每分钟检查一次
 ```
 
@@ -438,14 +438,14 @@ async def async_monitoring_task(monitor):
     while True:
         # 异步收集指标
         metrics = await monitor.collect_metrics()
-        
+
         # 异步发送到监控系统
         await asyncio.gather(
             send_to_prometheus(metrics),
             send_to_statsd(metrics),
             check_alerts(metrics)
         )
-        
+
         await asyncio.sleep(30)
 
 # 启动异步监控

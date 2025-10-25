@@ -4,11 +4,7 @@
 测试分布式锁的获取、释放、超时和并发场景。
 """
 
-import asyncio
 import time
-from typing import Any
-
-import pytest
 
 from symphra_cache import CacheManager
 from symphra_cache.backends import MemoryBackend
@@ -62,9 +58,7 @@ class TestDistributedLockBasics:
         assert result1 is True
 
         # 第二个锁获取失败（非阻塞模式）
-        lock2_non_blocking = DistributedLock(
-            manager, "resource:1", blocking=False
-        )
+        lock2_non_blocking = DistributedLock(manager, "resource:1", blocking=False)
         result2 = lock2_non_blocking.acquire()
         assert result2 is False
 
@@ -94,9 +88,7 @@ class TestDistributedLockBasics:
         """测试阻塞超时"""
         manager = CacheManager(backend=MemoryBackend())
         lock1 = DistributedLock(manager, "resource:1", timeout=10)
-        lock2 = DistributedLock(
-            manager, "resource:1", blocking=True, blocking_timeout=0.1
-        )
+        lock2 = DistributedLock(manager, "resource:1", blocking=True, blocking_timeout=0.1)
 
         # 第一个锁持有资源
         lock1.acquire()
@@ -289,9 +281,7 @@ class TestDistributedLockEdgeCases:
         """测试零阻塞超时"""
         manager = CacheManager(backend=MemoryBackend())
         lock1 = DistributedLock(manager, "resource:1")
-        lock2 = DistributedLock(
-            manager, "resource:1", blocking=True, blocking_timeout=0
-        )
+        lock2 = DistributedLock(manager, "resource:1", blocking=True, blocking_timeout=0)
 
         lock1.acquire()
 

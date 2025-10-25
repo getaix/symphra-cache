@@ -6,9 +6,9 @@ Redis 后端的全面测试（支持 mock 和真实 Redis）
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch, AsyncMock
-import pytest
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import pytest
 from symphra_cache.backends import RedisBackend
 from symphra_cache.serializers import PickleSerializer
 
@@ -47,11 +47,7 @@ class TestRedisBackendBasics:
         """测试 Redis 后端的自定义序列化器"""
         try:
             serializer = PickleSerializer()
-            backend = RedisBackend(
-                host="localhost",
-                port=6379,
-                serialization_mode="pickle"
-            )
+            backend = RedisBackend(host="localhost", port=6379, serialization_mode="pickle")
             # 验证后端被初始化
             assert backend is not None
             assert backend._serializer is not None

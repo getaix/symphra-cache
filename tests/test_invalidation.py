@@ -8,10 +8,9 @@ import asyncio
 from typing import Any
 
 import pytest
-
 from symphra_cache import CacheManager
 from symphra_cache.backends import MemoryBackend
-from symphra_cache.invalidation import CacheInvalidator, CacheGroupInvalidator
+from symphra_cache.invalidation import CacheGroupInvalidator, CacheInvalidator
 
 
 class TestCacheInvalidatorBasics:
@@ -255,9 +254,7 @@ class TestCacheInvalidatorDependencies:
             return dependencies
 
         # 失效主键及其依赖
-        count = await invalidator.invalidate_with_dependencies(
-            ["user:1"], resolve_dependencies
-        )
+        count = await invalidator.invalidate_with_dependencies(["user:1"], resolve_dependencies)
         assert count == 3
 
         # 验证主键和依赖键都被删除
@@ -335,9 +332,7 @@ class TestCacheInvalidatorScheduling:
             return condition_triggered
 
         # 启动条件失效任务
-        task = await invalidator.conditional_invalidation(
-            condition, ["key1"], check_interval=0.01
-        )
+        task = await invalidator.conditional_invalidation(condition, ["key1"], check_interval=0.01)
 
         # 短暂等待
         await asyncio.sleep(0.05)

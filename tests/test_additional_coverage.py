@@ -10,10 +10,13 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from symphra_cache import CacheManager
-from symphra_cache.backends import MemoryBackend, FileBackend
-from symphra_cache.serializers import get_serializer, BaseSerializer, JSONSerializer, PickleSerializer
+from symphra_cache.backends import FileBackend, MemoryBackend
+from symphra_cache.serializers import (
+    JSONSerializer,
+    PickleSerializer,
+    get_serializer,
+)
 from symphra_cache.types import SerializationMode
 
 
@@ -172,11 +175,13 @@ class TestMemoryBackendAdditional:
         backend = MemoryBackend()
 
         # 批量设置
-        backend.set_many({
-            "key1": "value1",
-            "key2": "value2",
-            "key3": "value3",
-        })
+        backend.set_many(
+            {
+                "key1": "value1",
+                "key2": "value2",
+                "key3": "value3",
+            }
+        )
 
         # 批量获取
         result = backend.get_many(["key1", "key2", "key3"])

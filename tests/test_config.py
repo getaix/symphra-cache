@@ -11,7 +11,6 @@ from pathlib import Path
 import pytest
 import toml
 import yaml
-
 from symphra_cache.backends import MemoryBackend
 from symphra_cache.config import CacheConfig
 from symphra_cache.exceptions import CacheConfigError

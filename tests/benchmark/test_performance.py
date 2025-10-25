@@ -8,7 +8,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from symphra_cache import CacheManager
 from symphra_cache.backends import FileBackend, MemoryBackend
 

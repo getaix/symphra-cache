@@ -105,7 +105,7 @@ await warmer.warm_up_from_file("cache_data.csv", format="csv", ttl=3600)
 ```python
 data = {
     "session:user123": "session_data",
-    "token:api456": "api_token", 
+    "token:api456": "api_token",
     "config:app": "app_config",
 }
 
@@ -186,7 +186,7 @@ smart_warmer = create_warmer(cache, strategy="smart", prediction_window=12)
 
 # 创建自定义配置预热器
 custom_warmer = create_warmer(
-    cache, 
+    cache,
     strategy="incremental",
     batch_size=50,
     ttl=1800

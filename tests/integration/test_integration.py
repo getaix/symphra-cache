@@ -9,7 +9,6 @@ import time
 from pathlib import Path
 
 import pytest
-
 from symphra_cache import CacheManager, CacheMonitor
 from symphra_cache.backends import FileBackend, MemoryBackend
 from symphra_cache.config import CacheConfig

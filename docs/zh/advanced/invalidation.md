@@ -93,7 +93,7 @@ def resolve_user_dependencies(user_keys):
 # 失效用户及其所有依赖
 primary_keys = ["user:profile:123"]
 await invalidator.invalidate_with_dependencies(
-    primary_keys, 
+    primary_keys,
     resolve_user_dependencies
 )
 ```
@@ -181,16 +181,16 @@ async def update_user_profile(user_id, profile_data):
     """更新用户资料并失效相关缓存"""
     # 1. 更新数据库
     await database.update_user(user_id, profile_data)
-    
+
     # 2. 失效用户相关缓存
     invalidator = CacheInvalidator(cache)
-    
+
     # 失效用户资料缓存
     await invalidator.invalidate_keys([f"user:profile:{user_id}"])
-    
+
     # 失效用户统计缓存
     await invalidator.invalidate_pattern(f"user:stats:{user_id}:*")
-    
+
     # 失效用户动态缓存
     await invalidator.invalidate_pattern(f"feed:user:{user_id}:*")
 
@@ -205,16 +205,16 @@ async def update_product_price(product_id, new_price):
     """更新商品价格并失效相关缓存"""
     # 1. 更新数据库
     await database.update_price(product_id, new_price)
-    
+
     # 2. 失效价格相关缓存
     invalidator = CacheInvalidator(cache)
-    
+
     # 失效商品价格缓存
     await invalidator.invalidate_keys([f"product:price:{product_id}"])
-    
+
     # 失效商品详情缓存
     await invalidator.invalidate_keys([f"product:detail:{product_id}"])
-    
+
     # 失效分类价格缓存
     category = await database.get_product_category(product_id)
     await invalidator.invalidate_pattern(f"category:{category}:products:*")
@@ -230,16 +230,16 @@ async def update_app_config(config_key, config_value):
     """更新应用配置并失效相关缓存"""
     # 1. 更新配置
     await config_service.update(config_key, config_value)
-    
+
     # 2. 失效配置缓存
     invalidator = CacheInvalidator(cache)
-    
+
     # 失效特定配置
     await invalidator.invalidate_keys([f"config:{config_key}"])
-    
+
     # 失效所有配置缓存
     await invalidator.invalidate_prefix("config:")
-    
+
     # 失效依赖该配置的功能缓存
     await invalidator.invalidate_pattern("feature:*")
 
@@ -254,16 +254,16 @@ async def logout_user(user_id):
     """用户登出并清理会话缓存"""
     # 1. 清理会话状态
     await session_service.clear_session(user_id)
-    
+
     # 2. 失会话缓存
     invalidator = CacheInvalidator(cache)
-    
+
     # 失效用户会话
     await invalidator.invalidate_pattern(f"session:user:{user_id}:*")
-    
+
     # 失效用户权限缓存
     await invalidator.invalidate_keys([f"permissions:user:{user_id}"])
-    
+
     # 失效用户状态缓存
     await invalidator.invalidate_keys([f"status:user:{user_id}"])
 
@@ -348,26 +348,26 @@ class InvalidationMonitor:
     def __init__(self, invalidator):
         self.invalidator = invalidator
         self.metrics = {}
-    
+
     async def monitored_invalidate(self, method, *args, **kwargs):
         """监控失效操作性能"""
         start_time = time.time()
-        
+
         if method == "keys":
             result = await self.invalidator.invalidate_keys(*args, **kwargs)
         elif method == "pattern":
             result = await self.invalidator.invalidate_pattern(*args, **kwargs)
         # ... 其他方法
-        
+
         elapsed = time.time() - start_time
-        
+
         # 记录性能指标
         self.metrics[method] = {
             "last_duration": elapsed,
             "last_result": result,
             "avg_duration": self._calculate_avg(method, elapsed)
         }
-        
+
         return result
 ```
 

@@ -7,7 +7,6 @@
 import time
 
 import pytest
-
 from symphra_cache import CacheManager, CacheMonitor, CacheStats
 from symphra_cache.backends import MemoryBackend
 
