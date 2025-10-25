@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "symphra-cache"
-version = "0.1.0"
+version = "0.1.1"
 description = "生产级 Python 异步缓存库，支持内存、文件（热重载）、Redis 后端"
 readme = "README.md"
 requires-python = ">=3.11"

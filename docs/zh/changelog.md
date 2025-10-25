@@ -12,6 +12,15 @@
 - 缓存失效通知
 - 性能基准测试
 
+## [0.1.1] - 2025-10-25
+
+### 修复
+- 修正 `pyproject.toml` 中 `all` 可选依赖定义，避免 CI 安装失败。
+- 文档工作流：补充 `pull_request` 触发、纳入 `README.zh.md`、增加并发取消策略、禁止 PR 部署 Pages。
+
+### 文档
+- README 与中文 README 增加监控快速上手示例，完善监控 API 文档。
+
 ## [0.1.0] - 2025-10-25
 
 ### 新增 - 核心后端
@@ -81,5 +90,6 @@
 - Ruff 格式化和 Lint
 - GitHub Actions CI/CD
 
-[未发布]: https://github.com/getaix/symphra-cache/compare/v0.1.0...HEAD
+[未发布]: https://github.com/getaix/symphra-cache/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/getaix/symphra-cache/releases/tag/v0.1.1
 [0.1.0]: https://github.com/getaix/symphra-cache/releases/tag/v0.1.0

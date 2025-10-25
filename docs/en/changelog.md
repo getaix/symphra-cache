@@ -12,6 +12,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and 
 - Cache invalidation notifications
 - Performance benchmarks
 
+## [0.1.1] - 2025-10-25
+
+### Fixed
+- Correct `all` optional dependencies in `pyproject.toml` to avoid CI install failure.
+- Docs workflow: add `pull_request` triggers, include `README.zh.md`, add concurrency to cancel duplicate builds, and prevent Pages deployment on PRs.
+
+### Documentation
+- Add monitoring quick-start examples to READMEs; improve monitoring API docs.
+
 ## [0.1.0] - 2025-10-25
 
 ### Added - Core Backends
@@ -81,5 +90,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and 
 - Ruff 格式化和 Lint
 - GitHub Actions CI/CD
 
-[Unreleased]: https://github.com/getaix/symphra-cache/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/getaix/symphra-cache/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/getaix/symphra-cache/releases/tag/v0.1.1
 [0.1.0]: https://github.com/getaix/symphra-cache/releases/tag/v0.1.0
